@@ -1,0 +1,14 @@
+DevContainer
+Ferramenta para criar um Docker especificamente para rodar o projeto, independentemente se o projecto utiliza ou não containeres.
+
+Pré-requisitos
+	Docker Desktop instalado no host, não pode instalar apenas nas máquinas WSL.
+	Instalar o Dev Container no VS Code
+	
+	
+Para iniciar:
+	Abra a raiz do projeto
+	Pressione F1 "Add Dev Container Configuration File..."
+	Você pode utilizar o seu Dockerfile ou o "From a predefined container configuration definition" para o Dev Container criar um container mais específico
+		Utilizei a segunda opção e achei mais vantajosa para o escopo de desenvolvimento
+	Será criado um diretório .devcontainer com um arquivo devcontainer.json, nesse arquivo que implementaremos o nosso container do ambiente de desenvolvimento

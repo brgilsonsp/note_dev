@@ -1,0 +1,79 @@
+Spring Boot - Básico de uma API
+https://www.youtube.com/watch?v=LXRU-Z36GEU&list=PLZ0xO166mNYvSK-dXHH7u03QgdoTHeAYX&index=60
+Core container
+	Implementação do IoC (inversão de controle)
+	
+Bean >> Um objeto que é instanciado e gerenciando pelo container do Spring, através do IoC e Injeção de Dependência
+
+
+Dúvidas
+	Dispatcher Servlets
+		É somento do Spring ou do JavaEE?
+	Porquê utilizar tipo UUID no ID para banco de dados?
+	Banco de dados Configurações 34"
+		spring.datasource.***
+			É padrão para todos bancos
+			Aonde está essa documentação?
+		spring.jpa.hibernate.dd-auto=update
+			Quais outros valores que posso utilizar
+			Existe outras propriedades que preciso conhecer?
+		spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
+			O que seria essa propriedade?
+			Quando saber quando ligar ou desligar?
+			Quais outras propriedades para banco de dados que preciso conhecer?
+	Anotações
+		Documentação para:
+			Anotações de API REST, @RestContoller, @GetMapping, @PostaMapping, @CrossOrigin, @RequestMapping, @RequestBody, @Valid, @PathVariable, @DeleteMapping, @PutMapping, @PageableDefault 36"
+			Anotações JPA/Model: @Entity, @Table, @Identity/@Id, @GeneratedValue, @Column, @Repository 42"
+			Anotações Validate/DTO: @NotBlank, @Size
+				Javax ou Spring? spring-boot-starter-validation
+				Como criar as constraints personalizadas
+			@Transaction: Foi utilizado no classe Service, no método que invoca o Repository. É recomendado o uso dessa anotação em méotodo construtivos/destrutivos, pois se ocorrer algum erro ao manipular o DB, então o Spring garente o rollback, mantendo a unicidade
+			Configurações: @Configuration, @Bean, @Primary
+	Realmente devo criar getter/setter para os frameworks?
+	Interfaces e Classes Spring
+		API
+			ResponseEntity, Pageable, Page
+				Pageable: para invocar a API pode passar queryparams: 
+					page >> qual página, iniciando em 0
+					size >> quantidade de elementos por página, iniciando em 0
+					sort >> qual o campo da ordenação e a ordem (ASC/DESC), exemplo, sort=id,ASC
+		DB
+			JpaRepository
+				Sugestões de query utilizando declarações de métdoos
+				Quais interfaces de Repository e suas documentações, por exemplo, JpaRepository
+		Models
+			BeanUtils.copyProperties
+		Date Time
+			LocalDateTime.not(ZoneId.of("UTC")) >> O que seria esse ZoneId, como devo montar?
+			ISO8601 - OffSet
+	
+		
+https://github.com/MichelliBrito/parking-control-api
+package com.api.parkingcontrol.configs;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+
+import java.time.format.DateTimeFormatter;
+
+@Configuration
+public class DateConfig {
+
+    public static final String DATETIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+    public static LocalDateTimeSerializer LOCAL_DATETIME_SERIALIZER = new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DATETIME_FORMAT));
+
+    @Bean
+    @Primary
+    public ObjectMapper objectMapper() {
+        JavaTimeModule module = new JavaTimeModule();
+        module.addSerializer(LOCAL_DATETIME_SERIALIZER);
+        return new ObjectMapper()
+                .registerModule(module);
+    }
+
+}

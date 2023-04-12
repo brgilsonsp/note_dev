@@ -1,0 +1,91 @@
+play with docker
+Basic container 4Linux
+Um container é um pacote de aplicação que funciona de forma isolada dentro do SO com todas dependências necessárias dentro de si e são fáceis de mover. Crescem em quantidade de forma simples
+
+Como funciona o container
+	História:
+		1979 A versão 7 do Unix criou os fundamentos da tecnologia, ou do isolamento, o chroot. O chroot isola os processos somenteo no nível de arquivos, porém continua com acesso a rede, usuários e etc. Um processo isolado com chroot acha que o diretório que ele está isolado é a raiz do SO, na teoria é como se o processo entendesse que não existe nenhum disco fora daquele diretório
+		1980 o SO Plan 9 combinou varios diretórios em um union mounting
+		1986 a Sun implementou uma forma de COW (copy on write) chamado de Transluced File Service
+		2000 o FreeBSD 4 apresenta o jails, virtualização em nível de sistema operacional, foi uma evolução do chroot, pois é como se a máquina estivesse particionada em nível geral, agora não apenas de diretório mas também de redes, usuários, etc. Nessa tecnologia você tem mais controle no particionamento
+		2001 o jails foi melhorado com o Linux VServer, sistemas Linux inteiros no mesmo Kernel, sem o uso de Hyper Visior
+		2002 surgiu os namespaces, separando e/ou agrupando recursos do kernel, ou seja, processos no mesmo namespaces via o mesmo recurso
+		2005 O OpenVZ oficioalizou o Linux VServer ao Kernel
+		2006 Os cgroups implementaram isolamento e limite de recursos como CPU e RAM
+		2008 Apareceu o LXC (Linux Container), definindo como seriam os contêineres
+		2011 Surge  Wardem, núcleo do Cloud Foundry, seu foco era gerenciar contêineres
+		2013 Surgiu o Docker, que era baseado em LXC e lib containers
+	Tecnologias chaves
+		Nem todas as tecnologias de um contêiner são comuns em todos os contêineres, porém as tecnologias abaixo sim, essas estão presentes em todos contêineres
+			namespaces: Isolam os processos dos contêineres e também os pontos de montagem, diretórios, disco, redes, etc
+			cgroups: limitam o acesso aos recursos da máquina, como CPU, memória e tráfego de rede
+			union mounting: é uma características dos sistemas de arquivos que trabalham com camadas, essas camas podem ser compartilhadas
+Imagens é aonde está a aplicação, dependências da aplicação, bibliotecas, binários e outros arquivos necessárias para que a imagem execute a aplicação em qualquer ambiente. As imagens são READ ONLY. Ela deve funcionar da mesma forma no computador do DEV e no servidor de produção
+
+Container Runtime: São implementações de baixo nível, eles que de fato criam os contêineres no SO. Um exemplo é o Docker. Geralmente uma Container Runtime utiliza uma Container Enginner
+
+	
+
+Ferramentas iguais ao Docker (container enginner)
+	Podman
+	LXD
+	ContainerD
+	cri-o
+	RKT
+	
+	
+Kubernets é um orquestrador
+
+SLA/SLO
+	SLA = Service-level Agrremente, índica o nível de serviço prestado entre duas partes
+	SLO = Service-level objective, mensura os acordos especificados no SLA
+
+
+SDN = Software defined Network
+
+
+Métrica
+Sessão distribuido
+Cache distribuido
+Volumes distribuido
+Criar imagem
+
+Operators = facilitam algumas tarefas importantes como backups, replicas e alta disponibilidade
+
+Docker
+	É uma ferramenta para criar e gerenciar containers
+	Docker trabalha com várias camadas 
+	O container docker trabalha com uma ou mais camadas ready only e uma camada READ/WRITE, chamada de writetable layer COW (copy on write)
+	No momento da criação do container, o Docker cria a camada writetable layer para edição de arquivos
+	O ciclo de vida da writetable layer é apenas em tempo de execução, assim que o container é finalizado, então essa camada é destruida e seus arquivos perdidos
+	Quando precisa editar um arquivo das camadas ready only, então puxa esse arquivos para a writetable layer
+	Docker parados podem ser restartados
+	Quando start um container, via comando start, ele não segura o terminal como acontece quando cria o container
+	
+	Posso executar várias comandos RUN na criação da imagem
+	
+	Docker file reference >> doc para criar um dockerfile
+	
+	
+Repositórios de imagem - registry
+	Docker hub
+	Portus
+	Harbor
+	SonaType Nexus Repository OSS
+	imagem registry v2
+	
+	
+Dockerfile: documentação de como deve criar a imagem, aqui estarão os comandos e algumas observações para a criação da imagem. Após buildar um dockerfile teremos uma imagem
+Dockercompose: documentação para compor uma arquitetura de contêineres. Nesse documentação será definido os contêineres, suas portas, redes, volumes, ou seja. ao invés de digitar o "docker container...." para cada imagem que deseja subir, podemos agrupar esses comandos no dockercompose
+
+dockercompose >> manifesto kubernets
+
+greylog
+	
+
+
+Próximos passos:
+	Como funciona um orquestrador (Kubernets ou Swarn)
+	Volumes distrubuidos (NFS)
+	Load balancer (HAPROXY, Traefik)
+	Outras ferramentas para container (LXD, Podman)

@@ -1,0 +1,8 @@
+ALT+1				: Minimiza/Maximinia a aba project
+ALT + INSERT		: Cria arquivo no projeto
+CTRL + SHIFT + F10	: Cria configuração de execução
+SHIFT + F10			: Executa o código com a configuração de execução criada
+
+CTRL + ALT + V		: Cria a variável para uma instância
+CTRL + ALT + <		: Retorna para o último ponto que o cursor estava
+CTRL + ALT + >		: Vai para o próximo ponto que o cursor estava
